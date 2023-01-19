@@ -19,15 +19,30 @@ namespace Lactoscope_Interface
 
         public string GetAttributeValue(string element, string attribute)
         {
+            string value;
             XmlNode node = doc.DocumentElement.SelectSingleNode(element);
-            string value = node.Attributes.GetNamedItem(attribute).Value;
+            if(node != null)
+            {
+                value = node.Attributes.GetNamedItem(attribute).Value;
+            } else
+            {
+                value = "";
+            }
             return value;
         }
 
         public string GetElementValue(string element)
         {
+            string value;
             XmlNode node = doc.DocumentElement.SelectSingleNode(element);
-            string value = node.InnerText;
+            if (node != null)
+            {
+                value = node.InnerText;
+            } else
+            {
+                value = "";
+            }
+
             return value;
         }
     }

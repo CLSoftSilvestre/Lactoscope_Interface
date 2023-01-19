@@ -13,6 +13,7 @@
 		</remote_broker>
 	</mqttbroker>
 	<device>
+		<deviceid>1</deviceid>
 		<manufacturer>Perten</manufacturer>
 		<model>ModelX</model>
 		<serialnumber>12345678</serialnumber>

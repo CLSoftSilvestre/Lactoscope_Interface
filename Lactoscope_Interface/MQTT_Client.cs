@@ -27,6 +27,7 @@ namespace Lactoscope_Interface
 
             using (var mqttClient = mqttFactory.CreateMqttClient())
             {
+
                 var mqttClientOptions = new MqttClientOptionsBuilder()
                     .WithTcpServer(_brokerConnection.Address,_brokerConnection.Port)
                     .Build();
@@ -35,7 +36,7 @@ namespace Lactoscope_Interface
 
                 // Publish Lactoscope properties Manufacturer
                 var applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/manufacturer")
+                    .WithTopic("lactoscope"+lacto.Id+"/manufacturer")
                     .WithPayload(lacto.Manufacturer)
                     .Build();
 
@@ -43,7 +44,7 @@ namespace Lactoscope_Interface
 
                 // Publish Lactoscope properties Model
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/model")
+                    .WithTopic("lactoscope" + lacto.Id + "/model")
                     .WithPayload(lacto.Model)
                     .Build();
 
@@ -51,7 +52,7 @@ namespace Lactoscope_Interface
 
                 // Publish Lactoscope properties Serial Number
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/serialnumber")
+                    .WithTopic("lactoscope" + lacto.Id + "/serialnumber")
                     .WithPayload(lacto.SerialNumber)
                     .Build();
 
@@ -59,7 +60,7 @@ namespace Lactoscope_Interface
 
                 // Publish Analysis ID
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/id")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/id")
                     .WithPayload(lacto.Sample.Id)
                     .Build();
 
@@ -67,7 +68,7 @@ namespace Lactoscope_Interface
 
                 // Publish Analysis Datetime
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/datetime")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/datetime")
                     .WithPayload(lacto.Sample.Datetime)
                     .Build();
 
@@ -75,7 +76,7 @@ namespace Lactoscope_Interface
 
                 // Publish Analysis Product
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/product")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/product")
                     .WithPayload(lacto.Sample.Product)
                     .Build();
 
@@ -83,7 +84,7 @@ namespace Lactoscope_Interface
 
                 // Publish Analysis Product Type
                 applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/producttype")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/producttype")
                     .WithPayload(lacto.Sample.ProductType)
                     .Build();
 
@@ -96,7 +97,7 @@ namespace Lactoscope_Interface
                 {
                     // Property Name
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/"+ lacto.Sample.Properties[i].PropertyName + "/" + "name")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "name")
                     .WithPayload(lacto.Sample.Properties[i].PropertyName)
                     .Build();
 
@@ -104,7 +105,7 @@ namespace Lactoscope_Interface
 
                     // Property Description
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "description")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "description")
                     .WithPayload(lacto.Sample.Properties[i].Description)
                     .Build();
 
@@ -112,7 +113,7 @@ namespace Lactoscope_Interface
 
                     // Property Value
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "average")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "average")
                     .WithPayload(lacto.Sample.Properties[i].Average)
                     .Build();
 
@@ -120,7 +121,7 @@ namespace Lactoscope_Interface
 
                     // Property Std Deviation
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "stddev")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "stddev")
                     .WithPayload(lacto.Sample.Properties[i].StdDev)
                     .Build();
 
@@ -130,7 +131,7 @@ namespace Lactoscope_Interface
 
                     // Property calibration datetime
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "calibration/datetime")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "calibration/datetime")
                     .WithPayload(lacto.Sample.Properties[i].Calibration.Datetime)
                     .Build();
 
@@ -138,7 +139,7 @@ namespace Lactoscope_Interface
 
                     // Property calibration slope
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "calibration/slope")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "calibration/slope")
                     .WithPayload(lacto.Sample.Properties[i].Calibration.Slope)
                     .Build();
 
@@ -146,7 +147,7 @@ namespace Lactoscope_Interface
 
                     // Property calibration intercect
                     applicationMessage = new MqttApplicationMessageBuilder()
-                    .WithTopic("lactoscope/sample/" + lacto.Sample.Properties[i].PropertyName + "/" + "calibration/intercept")
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "calibration/intercept")
                     .WithPayload(lacto.Sample.Properties[i].Calibration.Intercept)
                     .Build();
 

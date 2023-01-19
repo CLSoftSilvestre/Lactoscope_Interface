@@ -18,6 +18,7 @@ namespace Lactoscope_Interface
             XML_Parser config = new XML_Parser();
             config.ReadFile("configuration.xml");
 
+            lacto.Id = config.GetElementValue("/interface/device/deviceid");
             lacto.Manufacturer = config.GetElementValue("/interface/device/manufacturer");
             lacto.Model = config.GetElementValue("/interface/device/model");
             lacto.SerialNumber = config.GetElementValue("/interface/device/serialnumber");
