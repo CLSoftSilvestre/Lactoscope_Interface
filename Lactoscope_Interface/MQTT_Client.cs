@@ -111,6 +111,14 @@ namespace Lactoscope_Interface
 
                     await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
 
+                    // Property Units
+                    applicationMessage = new MqttApplicationMessageBuilder()
+                    .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "units")
+                    .WithPayload(lacto.Sample.Properties[i].Units)
+                    .Build();
+
+                    await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+
                     // Property Value
                     applicationMessage = new MqttApplicationMessageBuilder()
                     .WithTopic("lactoscope" + lacto.Id + "/sample/property" + i + "/" + "average")
