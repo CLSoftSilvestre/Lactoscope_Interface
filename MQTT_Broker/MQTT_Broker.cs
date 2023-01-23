@@ -9,7 +9,7 @@ using MQTTnet.Diagnostics;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
 
-namespace Lactoscope_Interface
+namespace MQTT_Broker
 {
     public static class MQTT_Broker
     {

@@ -2,7 +2,7 @@
 <interface>
 	<mqttbroker>
 		<local_broker>
-			<enabled>True</enabled>
+			<enabled>False</enabled>
 			<logging>False</logging>
 		</local_broker>
 		<remote_broker>
