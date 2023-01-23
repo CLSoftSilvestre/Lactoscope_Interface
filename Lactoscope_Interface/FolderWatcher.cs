@@ -48,7 +48,7 @@ namespace Lactoscope_Interface
             {
                 watcher.EnableRaisingEvents = false;
 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
 
                 XML_Parser reader = new XML_Parser();
                 reader.ReadFile(e.FullPath);

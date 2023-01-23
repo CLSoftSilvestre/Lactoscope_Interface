@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<interface>
+	<mqttbroker>
+		<local_broker>
+			<enabled>False</enabled>
+			<logging>False</logging>
+		</local_broker>
+		<remote_broker>
+			<address>127.0.0.1</address>
+			<port>1883</port>
+			<username>client</username>
+			<password>client</password>
+		</remote_broker>
+	</mqttbroker>
+	<device>
+		<deviceid>1</deviceid>
+		<manufacturer>Perten</manufacturer>
+		<model>ModelX</model>
+		<serialnumber>12345678</serialnumber>
+		<outputfolder>c:/lactoscope_output</outputfolder>
+	</device>
+</interface>
