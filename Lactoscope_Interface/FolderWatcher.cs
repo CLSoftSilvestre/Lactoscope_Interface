@@ -37,6 +37,7 @@ namespace Lactoscope_Interface
                 | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = "*.xml";
             watcher.Created += new FileSystemEventHandler(OnCreated);
+            watcher.Error += new ErrorEventHandler(OnError);
             watcher.EnableRaisingEvents = true;
         }
 
@@ -96,5 +97,66 @@ namespace Lactoscope_Interface
             }
 
         }
+
+        private void OnError(object source, ErrorEventArgs e)
+        {
+            if (e.GetException().GetType() == typeof(InternalBufferOverflowException))
+            {
+                // txtResults.Text += "Error: File System Watcher internal buffer overflow at " + DateTime.Now + "\r\n";
+                Console.WriteLine("Error: File System Watcher internal buffer overflow at " + DateTime.Now);
+            }
+            else
+            {
+                // txtResults.Text += "Error: Watched directory not accessible at " + DateTime.Now + "\r\n";
+                Console.WriteLine("Error: Watched directory not accessible at " + DateTime.Now);
+            }
+            NotAccessibleError((FileSystemWatcher)source, e);
+        }
+
+        void NotAccessibleError(FileSystemWatcher source, ErrorEventArgs e)
+        {
+            int iMaxAttempts = 120;
+            int iTimeOut = 5000;
+            int i = 0;
+            while ((!Directory.Exists(source.Path) || source.EnableRaisingEvents == false) && i < iMaxAttempts)
+            {
+                i += 1;
+                try
+                {
+                    source.EnableRaisingEvents = false;
+                    if (!Directory.Exists(source.Path))
+                    {
+                        // MyEventLog.WriteEntry("Directory Inaccessible " + source.Path + " at " + DateTime.Now.ToString("HH:mm:ss"));
+                        Console.WriteLine("Directory Inaccessible " + source.Path + " at " + DateTime.Now.ToString("HH:mm:ss"));
+                        Thread.Sleep(iTimeOut);
+                    }
+                    else
+                    {
+                        // ReInitialize the Component
+                        source.Dispose();
+                        source = null;
+                        source = new System.IO.FileSystemWatcher();
+                        ((System.ComponentModel.ISupportInitialize)(source)).BeginInit();
+                        source.EnableRaisingEvents = true;
+                        source.Filter = "*.xml";
+                        source.Path = OutputFolder;
+                        source.NotifyFilter = System.IO.NotifyFilters.FileName;
+                        source.Created += new System.IO.FileSystemEventHandler(OnCreated);
+                        source.Error += new ErrorEventHandler(OnError);
+                        ((System.ComponentModel.ISupportInitialize)(source)).EndInit();
+                        Console.WriteLine("Try to Restart RaisingEvents Watcher at " + DateTime.Now.ToString("HH:mm:ss"));
+                        // MyEventLog.WriteEntry("Try to Restart RaisingEvents Watcher at " + DateTime.Now.ToString("HH:mm:ss"));
+                    }
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine("Error trying Restart Service " + error.StackTrace + " at " + DateTime.Now.ToString("HH:mm:ss"));
+                    // MyEventLog.WriteEntry("Error trying Restart Service " + error.StackTrace + " at " + DateTime.Now.ToString("HH:mm:ss"));
+                    source.EnableRaisingEvents = false;
+                    Thread.Sleep(iTimeOut);
+                }
+            }
+        }
+
     }
 }
